@@ -1,29 +1,61 @@
-# Exerc-cio-2-Contando-movimento-da-ordena-o
 import random
 
-def insertionSort(gcbr_arr):
-    gcbr_deslocamentos = 0
-    for gcbr_i in range(1, len(gcbr_arr)):
-        gcbr_chave = gcbr_arr[gcbr_i]
-        gcbr_j = gcbr_i - 1
-        while gcbr_j >= 0 and gcbr_arr[gcbr_j] > gcbr_chave:
-            gcbr_arr[gcbr_j + 1] = gcbr_arr[gcbr_j]
-            gcbr_deslocamentos += 1
-            gcbr_j -= 1
-        gcbr_arr[gcbr_j + 1] = gcbr_chave
-    return gcbr_deslocamentos
+def insertionSort(arr):
+    deslocamentos = 0
+    for i in range(1, len(arr)):
+        chave = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > chave:
+            arr[j + 1] = arr[j]
+            j -= 1
+            deslocamentos += 1
+        arr[j + 1] = chave
+    return deslocamentos
 
-def generate_random_array(gcbr_size, gcbr_min_val=1, gcbr_max_val=100):
-    return [random.randint(gcbr_min_val, gcbr_max_val) for _ in range(gcbr_size)]
+def insertionSortDetalhado(L):
+    deslocamentos = 0
+    for i in range(1, len(L)):
+        k = i
+        while k > 0 and L[k] < L[k-1]:
+            print(f"Comparando {L[k]} e {L[k-1]} -> trocando")
+            L[k], L[k-1] = L[k-1], L[k]
+            print(f"Vetor atual: {L}")
+            print("-" * 50)
+            k -= 1
+            deslocamentos += 1
+            print(f"Deslocamento {deslocamentos}: {L}")
+        if k > 0:
+            print(f"Comparando {L[k]} e {L[k-1]} -> não troca")
+            print("-" * 50)
+    return deslocamentos
+
+def generate_random_array(size, min_val=1, max_val=100):
+    return [random.randint(min_val, max_val) for _ in range(size)]
 
 def main():
-    gcbr_t = int(input())
-    for _ in range(gcbr_t):
-        gcbr_n = int(input())
-        gcbr_arr = list(map(int, input().split()))
-        gcbr_result = insertionSort(gcbr_arr)
-        print(gcbr_result)
+    modo = input("Escolha o modo:\n1 - Simples\n2 - Detalhado\nDigite 1 ou 2: ")
+    if modo == "1":
+        arr = generate_random_array(10)
+        print("Array de entrada:", arr)
+        deslocamentos = insertionSort(arr)
+        print("Array ordenado:", arr)
+        print("Deslocamentos realizados:", deslocamentos)
+    elif modo == "2":
+        a = int(input("Digite o valor mínimo do intervalo: "))
+        b = int(input("Digite o valor máximo do intervalo: "))
+        n = int(input("Digite o número de elementos do vetor: "))
+        # Gera vetor aleatório sem repetição entre a e b
+        X = random.sample(range(a, b), n)
+        print('Vetor não ordenado:')
+        print(X)
+        print()
+        deslocamentos = insertionSortDetalhado(X)
+        print('Vetor ordenado:')
+        print(X)
+        print()
+        print(f'Número total de deslocamentos: {deslocamentos}')
+    else:
+        print("Modo inválido. Execute o programa novamente e escolha 1 ou 2.")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
